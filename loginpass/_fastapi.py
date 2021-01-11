@@ -80,6 +80,7 @@ def create_fastapi_routes(backends, oauth, handle_authorize):
         redirect_uri = request.url_for("auth", backend="google")
         conf_key = "{}_AUTHORIZE_PARAMS".format(backend.upper())
         params = oauth.config.get(conf_key, default={})
+        params = {'access_type': 'offline', 'prompt': 'consent'}
         return await remote.authorize_redirect(request, redirect_uri, **params)
 
     return router
